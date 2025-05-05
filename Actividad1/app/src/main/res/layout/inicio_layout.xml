@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="25dp">
+
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="¡Bienvenido al juego!"
+        android:textSize="30dp"
+        android:textAlignment="center"
+        />
+
+    <TextView
+        android:id="@+id/subtitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Seleccione su opcion:"
+        android:layout_marginTop="20dp"
+        android:textAlignment="center"/>
+
+    <Button
+        android:id="@+id/button_start"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Comenzar"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="5dp"/>
+
+    <Button
+        android:id="@+id/button_ranking"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Ranking"
+        android:layout_marginBottom="20dp"/>
+</LinearLayout>

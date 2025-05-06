@@ -5,21 +5,25 @@ import android.os.Bundle
 import android.widget.Button
 import androidx.activity.ComponentActivity
 
-class StartActivity : ComponentActivity() {
+class StartActivity() : ComponentActivity() {
 
     override fun onCreate(savedIntanceState: Bundle?){
         super.onCreate(savedIntanceState)
         setContentView(R.layout.inicio_layout)
 
-        val start = findViewById<Button>(R.id.button_start)
+        val comenza_juego = findViewById<Button>(R.id.button_start)
         val ranking = findViewById<Button>(R.id.button_ranking)
 
-        start.setOnClickListener {
+        comenza_juego.setOnClickListener {
             val intent = Intent(this, UserActivity::class.java)
-            StartActivity(intent)
+            startActivity(intent)
+        }
+
+        ranking.setOnClickListener{
+            val intent = Intent(this, RankingActivity::class.java)
+            startActivity(intent)
         }
     }
 }
 
-private fun StartActivity.StartActivity(intent: Intent) {}
 

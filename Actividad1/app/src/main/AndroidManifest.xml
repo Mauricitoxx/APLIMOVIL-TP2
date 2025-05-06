@@ -23,6 +23,14 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".UserActivity"
+            android:exported="true"
+            android:label="RegistroUsuario"
+            android:theme="@style/Theme.Aplicacion_Actividad1"/>
+        <activity android:name=".RankingActivity"
+            android:exported="true"
+            android:label="Ranking"
+            android:theme="@style/Theme.Aplicacion_Actividad1"/>
     </application>
 
 </manifest>

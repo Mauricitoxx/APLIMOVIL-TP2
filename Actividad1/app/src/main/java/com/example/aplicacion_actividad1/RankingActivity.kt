@@ -2,12 +2,11 @@ package com.example.aplicacion_actividad1
 
 import android.os.Bundle
 import android.widget.Button
-import androidx.activity.ComponentActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.appcompat.app.AppCompatActivity
 
-
-class RankingActivity : ComponentActivity() {
+class RankingActivity : AppCompatActivity(){
 
     private lateinit var recyclerView: RecyclerView
     private lateinit var adapter: JugadorAdapter

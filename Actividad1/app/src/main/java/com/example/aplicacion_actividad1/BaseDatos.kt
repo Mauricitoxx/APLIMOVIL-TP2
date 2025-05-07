@@ -14,7 +14,7 @@ class BaseDatos(context: Context) : SQLiteOpenHelper(
     override fun onCreate(db: SQLiteDatabase) {
         db.execSQL("""
             CREATE TABLE jugadores (
-                id INTERGER PRIMARY KEY AUTOINCREMENT,
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
                 nombre TEXT UNIQUE NOT NULL,
                 puntaje INTEGER DEFAULT 0
             )
@@ -29,7 +29,7 @@ class BaseDatos(context: Context) : SQLiteOpenHelper(
     fun obtenerJugadoresOrdenadoPorPuntaje(): List<Jugador> {
         val lista = mutableListOf<Jugador>()
         val db = readableDatabase
-        val cursor = db.rawQuery("SELECT id, nombre, puntaje_max FROM jugadores ORDER BY puntaje_max ASC", null)
+        val cursor = db.rawQuery("SELECT id, nombre, puntaje FROM jugadores ORDER BY puntaje ASC", null)
 
         if (cursor.moveToFirst()){
             do {

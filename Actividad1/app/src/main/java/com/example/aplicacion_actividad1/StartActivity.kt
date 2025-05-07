@@ -7,8 +7,8 @@ import androidx.activity.ComponentActivity
 
 class StartActivity() : ComponentActivity() {
 
-    override fun onCreate(savedIntanceState: Bundle?){
-        super.onCreate(savedIntanceState)
+    override fun onCreate(savedInstanceState: Bundle?){
+        super.onCreate(savedInstanceState)
         setContentView(R.layout.inicio_layout)
 
         val comenza_juego = findViewById<Button>(R.id.button_start)

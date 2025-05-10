@@ -31,6 +31,11 @@
             android:exported="true"
             android:label="Ranking"
             android:theme="@style/Theme.Aplicacion_Actividad1"/>
+        <activity android:name=".GameActivity"
+            android:exported="true"
+            android:label="Juego"
+            android:theme="@style/Theme.Aplicacion_Actividad1" />
+
     </application>
 
 </manifest>

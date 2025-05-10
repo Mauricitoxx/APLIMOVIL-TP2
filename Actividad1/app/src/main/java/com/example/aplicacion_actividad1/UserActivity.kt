@@ -7,8 +7,9 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import android.content.Intent
 
-class UserActivity : AppCompatActivity(){
+class UserActivity : AppCompatActivity() {
 
     private lateinit var dbHelper: BaseDatos
 
@@ -34,7 +35,10 @@ class UserActivity : AppCompatActivity(){
                 "SELECT * FROM jugadores WHERE nombre = ?", arrayOf(nombre)
             )
 
+            var userId: Int
+
             if (cursor.moveToFirst()) {
+                userId = cursor.getInt(cursor.getColumnIndexOrThrow("id"))
                 Toast.makeText(this, "Bienvenido de nuevo, $nombre.", Toast.LENGTH_LONG).show()
             } else {
                 val valores = ContentValues().apply {
@@ -42,13 +46,18 @@ class UserActivity : AppCompatActivity(){
                 }
                 val result = db.insert("jugadores", null, valores)
                 if (result != -1L) {
+                    userId = result.toInt()
                     Toast.makeText(this, "Nuevo jugador creado: $nombre", Toast.LENGTH_SHORT).show()
                 } else {
                     Toast.makeText(this, "Error al crear el jugador", Toast.LENGTH_SHORT).show()
+                    return@setOnClickListener
                 }
             }
 
             cursor.close()
+            val intent = Intent(this, GameActivity::class.java)
+            intent.putExtra("userId", userId)
+            startActivity(intent)
         }
     }
 }

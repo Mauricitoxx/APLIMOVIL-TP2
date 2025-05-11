@@ -36,7 +36,8 @@
             android:id="@+id/salir_boton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Volver" />
+            android:text="Volver"
+            android:background="@drawable/button_bordes"/>
 
     </LinearLayout>
 </FrameLayout>

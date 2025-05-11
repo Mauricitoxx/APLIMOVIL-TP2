@@ -8,4 +8,6 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="amarillo">#FFFEBA17</color>
+    <color name="amarillo_input">#CDC88219</color>
+    <color name="amarillo_tabla">#FFB22C</color>
 </resources>

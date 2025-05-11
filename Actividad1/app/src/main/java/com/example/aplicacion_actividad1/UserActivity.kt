@@ -26,7 +26,7 @@ class UserActivity : AppCompatActivity() {
             val nombre = carga_nombre.text.toString().trim()
 
             if (nombre.isEmpty()) {
-                Toast.makeText(this, "Ingresa un nombre válido", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "Ingresa un nombre válido", Toast.LENGTH_LONG).show()
                 return@setOnClickListener
             }
 

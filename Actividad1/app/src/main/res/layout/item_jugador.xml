@@ -4,7 +4,7 @@
     android:layout_height="wrap_content"
     android:orientation="horizontal"
     android:padding="25dp"
-    android:background="@color/amarillo"
+    android:background="@drawable/ranking_desing"
     android:layout_marginBottom="8dp">
 
     <TextView
@@ -15,7 +15,7 @@
         android:text="Nombre"
         android:textSize="18sp"
         android:textStyle="bold"
-        android:textColor="@color/white"/>
+        android:textColor="@color/black"/>
 
     <TextView
         android:id="@+id/puntaje_jugador"
@@ -24,5 +24,5 @@
         android:text="0"
         android:textSize="18sp"
         android:textStyle="bold"
-        android:textColor="@color/white"/>
+        android:textColor="@color/black"/>
 </LinearLayout>

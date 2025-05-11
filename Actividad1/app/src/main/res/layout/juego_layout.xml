@@ -14,13 +14,24 @@
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:padding="24dp"
-        android:gravity="center">
+        android:gravity="center"
+        >
 
         <TextView
             android:id="@+id/text_score"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Puntaje: 0"
+            android:text="PUNTAJE: 0"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:textColor="@android:color/white"
+            android:layout_marginBottom="16dp" />
+
+        <TextView
+            android:id="@+id/text_score_max"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="PUNTAJE MAXIMO: 0"
             android:textSize="20sp"
             android:textStyle="bold"
             android:textColor="@android:color/white"
@@ -33,13 +44,16 @@
             android:hint="Ingresa un número (1 a 5)"
             android:inputType="number"
             android:maxLines="1"
-            android:layout_marginBottom="16dp" />
+            android:layout_marginBottom="16dp"
+            android:background="@drawable/input_desing"
+            android:padding="9dp"
+            />
 
         <Button
             android:id="@+id/button_guess"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/amarillo"
+            android:background="@drawable/button_bordes"
             android:text="Adivinar"
             android:layout_marginBottom="16dp" />
 
@@ -47,16 +61,16 @@
             android:id="@+id/text_feedback"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="24dp"
             android:text=""
-            android:textSize="16sp"
             android:textColor="@android:color/white"
-            android:layout_marginBottom="24dp" />
+            android:textSize="16sp" />
 
         <Button
             android:id="@+id/button_save"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/amarillo"
+            android:background="@drawable/button_bordes"
             android:text="Guardar y salir" />
 
     </LinearLayout>

@@ -30,6 +30,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
+            android:textSize="17dp"
             android:text="Seleccione una opción:"
             android:textAlignment="center"
             android:textColor="@android:color/white" />
@@ -40,7 +41,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
             android:layout_marginBottom="5dp"
-            android:background="@color/amarillo"
+            android:background="@drawable/button_bordes"
             android:text="Comenzar" />
 
         <Button
@@ -49,7 +50,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="30dp"
             android:layout_marginBottom="20dp"
-            android:background="@color/amarillo"
+            android:background="@drawable/button_bordes"
             android:text="Ranking" />
     </LinearLayout>
 </FrameLayout>

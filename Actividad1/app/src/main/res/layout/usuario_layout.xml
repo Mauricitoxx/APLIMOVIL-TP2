@@ -1,36 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:padding="25dp">
+    android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/title"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Ingrese su nombre de usuario"
-        android:textSize="30dp"
-        android:textAlignment="center"/>
 
-    <EditText
-        android:id="@+id/nombre_usuario"
+    <ImageView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:autofillHints=""
-        android:ems="10"
-        android:hint="Nombre de usuario"
-        android:inputType="textEmailAddress"
-        android:padding="12dp"
-        android:textSize="21sp"
-        tools:ignore="LabelFor"
-        android:layout_marginTop="20dp"
-        android:layout_marginBottom="20dp"/>
+        android:layout_height="match_parent"
+        android:src="@drawable/plain_background"
+        android:scaleType="centerCrop" />
 
-    <Button
-        android:id="@+id/button_start"
+    <LinearLayout
+        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Jugar" />
-</LinearLayout>
+        android:layout_height="match_parent"
+        android:padding="25dp"
+        android:gravity="center">
+
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Ingrese su nombre de usuario"
+            android:textSize="30sp"
+            android:textAlignment="center"
+            android:textColor="@android:color/white" />
+
+        <EditText
+            android:id="@+id/nombre_usuario"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Nombre de usuario"
+            android:inputType="textEmailAddress"
+            android:padding="12dp"
+            android:textSize="21sp"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="20dp" />
+
+        <Button
+            android:id="@+id/button_start"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/amarillo"
+            android:text="Jugar" />
+    </LinearLayout>
+</FrameLayout>

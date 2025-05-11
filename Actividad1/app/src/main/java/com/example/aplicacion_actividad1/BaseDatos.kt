@@ -29,7 +29,7 @@ class BaseDatos(context: Context) : SQLiteOpenHelper(
     fun obtenerJugadoresOrdenadoPorPuntaje(): List<Jugador> {
         val lista = mutableListOf<Jugador>()
         val db = readableDatabase
-        val cursor = db.rawQuery("SELECT id, nombre, puntaje FROM jugadores ORDER BY puntaje ASC", null)
+        val cursor = db.rawQuery("SELECT id, nombre, puntaje FROM jugadores ORDER BY puntaje DESC", null)
 
         if (cursor.moveToFirst()){
             do {

@@ -10,4 +10,6 @@
     <color name="amarillo">#FFFEBA17</color>
     <color name="amarillo_input">#CDC88219</color>
     <color name="amarillo_tabla">#FFB22C</color>
+    <color name="correcto">#127E08</color>
+    <color name="incorrecto">#EB0808</color>
 </resources>

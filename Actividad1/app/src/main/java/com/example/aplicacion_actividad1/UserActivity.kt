@@ -21,6 +21,7 @@ class UserActivity : AppCompatActivity() {
 
         val carga_nombre = findViewById<EditText>(R.id.nombre_usuario)
         val boton_jugar = findViewById<Button>(R.id.button_start)
+        val boton_salir = findViewById<Button>(R.id.salir_boton)
 
         boton_jugar.setOnClickListener {
             val nombre = carga_nombre.text.toString().trim()
@@ -58,6 +59,10 @@ class UserActivity : AppCompatActivity() {
             val intent = Intent(this, GameActivity::class.java)
             intent.putExtra("userId", userId)
             startActivity(intent)
+        }
+
+        boton_salir.setOnClickListener {
+            finish()
         }
     }
 }

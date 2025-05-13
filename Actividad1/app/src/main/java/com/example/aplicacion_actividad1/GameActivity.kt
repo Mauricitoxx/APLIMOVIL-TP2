@@ -21,6 +21,7 @@ class GameActivity : AppCompatActivity() {
     private lateinit var scoreText: TextView
     private lateinit var feedbackText: TextView
     private lateinit var scoreMaxText: TextView
+    private lateinit var intents: TextView
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -36,6 +37,7 @@ class GameActivity : AppCompatActivity() {
         scoreText = findViewById(R.id.text_score)
         feedbackText = findViewById(R.id.text_feedback)
         scoreMaxText = findViewById(R.id.text_score_max)
+        intents = findViewById(R.id.intents_rest)
 
         bestScore = getBestScoreFromDB()
         scoreText.text = "PUNTAJE: $currentScore"
@@ -53,9 +55,12 @@ class GameActivity : AppCompatActivity() {
             if (userInput == randomNumber) {
                 currentScore += 10
                 failedAttempts = 0
+                feedbackText.setTextColor(getColor(R.color.correcto))
                 feedbackText.text = "¡Correcto! Número: $randomNumber"
             } else {
                 failedAttempts++
+                intents.text = "Intentos Incorrectos: $failedAttempts"
+                feedbackText.setTextColor(getColor(R.color.incorrecto))
                 feedbackText.text = "Incorrecto. Número: $randomNumber"
             }
 

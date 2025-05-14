@@ -14,13 +14,14 @@
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:padding="24dp"
-        android:gravity="center"
         >
 
         <TextView
             android:id="@+id/text_score"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:layout_gravity="center"
             android:text="PUNTAJE: 0"
             android:textSize="20sp"
             android:textStyle="bold"
@@ -31,7 +32,8 @@
             android:id="@+id/text_score_max"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="PUNTAJE MAXIMO: 0"
+            android:layout_gravity="center"
+            android:text="PUNTAJE MÁXIMO: 0"
             android:textSize="20sp"
             android:textStyle="bold"
             android:textColor="@android:color/white"
@@ -41,16 +43,19 @@
             android:id="@+id/intents_rest"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Intentos incorrectos seguidos: 0"
+            android:layout_gravity="center"
+            android:text="Intentos Incorrectos: 0"
             android:textSize="20sp"
             android:textStyle="bold"
-            android:textColor="@color/white"
+            android:textColor="@color/amarillo_titulos"
             android:layout_marginBottom="16dp" />
 
         <EditText
             android:id="@+id/input_number"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="150dp"
             android:hint="Ingresa un número (1 a 5)"
             android:inputType="number"
             android:maxLines="1"
@@ -58,6 +63,18 @@
             android:background="@drawable/input_desing"
             android:padding="9dp"
             />
+        <TextView
+            android:id="@+id/text_feedback"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:text=""
+            android:background="@drawable/fondo_mensaje"
+            android:textStyle="bold"
+            android:layout_gravity="center"
+            android:padding="9dp"
+            android:textColor="@android:color/white"
+            android:textSize="16sp" />
 
         <Button
             android:id="@+id/button_guess"
@@ -66,15 +83,6 @@
             android:background="@drawable/button_bordes"
             android:text="Adivinar"
             android:layout_marginBottom="16dp" />
-
-        <TextView
-            android:id="@+id/text_feedback"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="24dp"
-            android:text=""
-            android:textColor="@android:color/white"
-            android:textSize="16sp" />
 
         <Button
             android:id="@+id/button_save"

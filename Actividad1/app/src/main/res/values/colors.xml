@@ -12,4 +12,6 @@
     <color name="amarillo_tabla">#FFB22C</color>
     <color name="correcto">#127E08</color>
     <color name="incorrecto">#EB0808</color>
+    <color name="black_mensaje">#AF000000</color>
+    <color name="amarillo_titulos">#FAEB6D</color>
 </resources>

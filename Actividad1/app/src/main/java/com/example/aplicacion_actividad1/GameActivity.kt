@@ -41,7 +41,7 @@ class GameActivity : AppCompatActivity() {
 
         bestScore = getBestScoreFromDB()
         scoreText.text = "PUNTAJE: $currentScore"
-        scoreMaxText.text = "PUNTAJE MAXIMO: $bestScore"
+        scoreMaxText.text = "PUNTAJE MÁXIMO: $bestScore"
 
         guessButton.setOnClickListener {
             val userInput = inputNumber.text.toString().trim().toIntOrNull()

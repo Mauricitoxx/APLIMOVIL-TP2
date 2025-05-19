@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp"
+    tools:context=".MainActivity">
+
+    <!-- Buscador de país -->
+    <EditText
+        android:id="@+id/editTextBuscarPais"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Buscar país"
+        android:inputType="text"
+        android:imeOptions="actionSearch"/>
+
+    <!-- ScrollView para la lista de países -->
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:fillViewport="true">
+
+        <LinearLayout
+            android:id="@+id/layoutPaises"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"/>
+    </ScrollView>
+
+    <!-- Botón para crear ciudad -->
+    <Button
+        android:id="@+id/btnCrearCiudad"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Crear ciudad"/>
+</LinearLayout>

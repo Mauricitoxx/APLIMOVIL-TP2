@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
-    <style name="Theme.Aplicacion_Actividad2" parent="android:Theme.Material.Light.NoActionBar" />
+    <style name="Theme.Aplicacion_Actividad2" parent="Theme.AppCompat.Light.NoActionBar" />
 </resources>

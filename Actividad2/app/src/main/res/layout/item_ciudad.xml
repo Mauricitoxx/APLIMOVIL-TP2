@@ -29,9 +29,17 @@
 
     <ImageButton
         android:id="@+id/btnEliminarCiudad"
-        android:layout_width="24dp"
-        android:layout_height="24dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="?attr/selectableItemBackgroundBorderless"
         android:contentDescription="Eliminar ciudad"
-        android:src="@android:drawable/ic_menu_delete"
-        android:background="?attr/selectableItemBackgroundBorderless"/>
+        android:src="@android:drawable/ic_menu_delete" />
+
+    <!-- Agrega esto a tu layout de item de ciudad -->
+    <ImageButton
+        android:id="@+id/btnEditarCiudad"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:src="@android:drawable/ic_menu_edit" />
 </LinearLayout>

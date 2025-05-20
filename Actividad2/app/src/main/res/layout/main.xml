@@ -12,7 +12,7 @@
         android:id="@+id/editTextBuscarPais"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Buscar país"
+        android:hint="Buscar Ciudad o Pais"
         android:inputType="text"
         android:imeOptions="actionSearch"/>
 

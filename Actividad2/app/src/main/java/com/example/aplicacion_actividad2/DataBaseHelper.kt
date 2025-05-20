@@ -76,29 +76,34 @@ class BaseDatos(context: Context) : SQLiteOpenHelper(context, "paises.db", null,
         }
 
         cursor.close()
-        db.close()
         return paises
     }
 
-    // Obtener ciudad por nombre
-    fun obtenerCiudadPorNombre(nombre: String): Ciudad? {
+    fun buscarPaisesYCiudades(filtro: String): List<Pais> {
         val db = readableDatabase
-        val cursor = db.rawQuery("SELECT * FROM ciudad WHERE nombre = ?", arrayOf(nombre))
-        var ciudad: Ciudad? = null
+        val paises = mutableSetOf<Pais>() // evitar duplicados
 
-        if (cursor.moveToFirst()) {
-            ciudad = Ciudad(
-                id = cursor.getInt(cursor.getColumnIndexOrThrow("id")),
-                nombre = cursor.getString(cursor.getColumnIndexOrThrow("nombre")),
-                habitantes = cursor.getInt(cursor.getColumnIndexOrThrow("habitantes")),
-                idPais = cursor.getInt(cursor.getColumnIndexOrThrow("idPais"))
-            )
+        val query = """
+        SELECT DISTINCT p.id, p.nombre 
+        FROM pais p
+        LEFT JOIN ciudad c ON c.idPais = p.id
+        WHERE p.nombre LIKE ? OR c.nombre LIKE ?
+    """.trimIndent()
+
+        val filtroLike = "%$filtro%"
+        val cursor = db.rawQuery(query, arrayOf(filtroLike, filtroLike))
+
+        while (cursor.moveToNext()) {
+            val id = cursor.getInt(cursor.getColumnIndexOrThrow("id"))
+            val nombre = cursor.getString(cursor.getColumnIndexOrThrow("nombre"))
+            paises.add(Pais(id, nombre))
         }
 
         cursor.close()
-        db.close()
-        return ciudad
+        return paises.toList()
     }
+
+
 
     // Eliminar ciudad por ID
     fun eliminarCiudad(id: Int): Int {
@@ -108,17 +113,20 @@ class BaseDatos(context: Context) : SQLiteOpenHelper(context, "paises.db", null,
         return filasAfectadas
     }
 
-    // Actualizar ciudad por ID
-    fun actualizarCiudad(id: Int, nombre: String, habitantes: Int): Int {
-        if (nombre.isBlank() || habitantes < 0) return -1
+    fun actualizarPoblacionCiudad(idCiudad: Int, nuevaPoblacion: Int): Int {
+        if (nuevaPoblacion < 0) return -1
 
         val db = writableDatabase
         val valores = ContentValues().apply {
-            put("nombre", nombre)
-            put("habitantes", habitantes)
+            put("habitantes", nuevaPoblacion)
         }
-        val filasAfectadas = db.update("ciudad", valores, "id = ?", arrayOf(id.toString()))
+        val resultado = db.update(
+            "ciudad",
+            valores,
+            "id = ?",
+            arrayOf(idCiudad.toString())
+        )
         db.close()
-        return filasAfectadas
+        return resultado
     }
 }

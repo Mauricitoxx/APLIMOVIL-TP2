@@ -1,5 +1,6 @@
 package com.example.aplicacion_actividad2
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -37,27 +38,30 @@ class MainActivity : AppCompatActivity() {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
         })
-
+        editTextBuscarPais
         // Configurar botón de crear ciudad
         btnCrearCiudad.setOnClickListener {
-            setContentView(R.layout.cargar)
-            }
+            val intent = Intent(this, CargarCiudadActivity::class.java)
+            startActivity(intent)
+        }
 
         // Cargar todos los países al iniciar
         cargarPaises("")
+
     }
 
     private fun cargarPaises(filtro: String) {
         layoutPaises.removeAllViews()
 
-        // Usamos el método obtenerPaises() de BaseDatos
-        val paises = baseDatos.obtenerPaises()
-            .filter { it.nombre.contains(filtro, ignoreCase = true) }
-            .sortedBy { it.nombre }
+        val paises = if (filtro.isBlank()) {
+            baseDatos.obtenerPaises()
+        } else {
+            baseDatos.buscarPaisesYCiudades(filtro)
+        }.sortedBy { it.nombre }
 
         if (paises.isEmpty()) {
             val tvEmpty = TextView(this).apply {
-                text = "No hay países disponibles"
+                text = "No hay países que coincidan con la búsqueda"
                 setPadding(0, 16.dpToPx(), 0, 0)
             }
             layoutPaises.addView(tvEmpty)
@@ -73,7 +77,6 @@ class MainActivity : AppCompatActivity() {
 
             tvNombrePais.text = pais.nombre
 
-            // Configurar botón de expandir/colapsar
             btnExpandir.setOnClickListener {
                 if (layoutCiudades.visibility == View.VISIBLE) {
                     layoutCiudades.visibility = View.GONE
@@ -85,7 +88,6 @@ class MainActivity : AppCompatActivity() {
                 }
             }
 
-            // Configurar botón de eliminar (elimina el país y sus ciudades)
             btnEliminar.setOnClickListener {
                 mostrarDialogoConfirmacionEliminar(pais)
             }
@@ -109,13 +111,17 @@ class MainActivity : AppCompatActivity() {
             layoutCiudades.addView(tvEmpty)
             return
         }
-
+// En el método donde configuras tus items de ciudad (en cargarCiudades())
         ciudades.forEach { ciudad ->
             val viewCiudad = LayoutInflater.from(this).inflate(R.layout.item_ciudad, null)
             val tvNombreCiudad = viewCiudad.findViewById<TextView>(R.id.textViewNombreCiudad)
             val tvHabitantes = viewCiudad.findViewById<TextView>(R.id.textViewHabitantes)
             val btnEliminar = viewCiudad.findViewById<ImageButton>(R.id.btnEliminarCiudad)
-
+// En el método donde configuras tus items de ciudad (en cargarCiudades())
+            val btnEditar = viewCiudad.findViewById<ImageButton>(R.id.btnEditarCiudad)
+            btnEditar.setOnClickListener {
+                mostrarPopupActualizarPoblacion(ciudad)
+            }
             tvNombreCiudad.text = ciudad.nombre
             tvHabitantes.text = "Habitantes: ${ciudad.habitantes}"
 
@@ -150,36 +156,78 @@ class MainActivity : AppCompatActivity() {
 
     private fun mostrarDialogoConfirmacionEliminar(pais: Pais) {
         AlertDialog.Builder(this)
-            .setTitle("Eliminar país")
-            .setMessage("¿Eliminar ${pais.nombre} y todas sus ciudades?")
+            .setTitle("Eliminar ciudades del pais")
+            .setMessage("¿Eliminar todas sus ciudades?")
             .setPositiveButton("Eliminar") { _, _ ->
-                eliminarPaisYCiudades(pais)
+                eliminarCiudadesDePais(pais)
             }
             .setNegativeButton("Cancelar", null)
             .show()
     }
+    private fun mostrarPopupActualizarPoblacion(ciudad: Ciudad) {
+        // Inflar el layout del popup
+        val dialogView = LayoutInflater.from(this).inflate(R.layout.popup_actualizar_poblacion, null)
 
-    private fun eliminarPaisYCiudades(pais: Pais) {
-        // Primero eliminamos las ciudades (usando el método existente)
+        // Configurar el diálogo
+        val dialog = AlertDialog.Builder(this)
+            .setView(dialogView)
+            .setCancelable(false)
+            .create()
+
+        // Obtener referencias a las vistas del popup
+        val editNuevaPoblacion = dialogView.findViewById<EditText>(R.id.editTextNuevaPoblacion)
+        val btnCancelar = dialogView.findViewById<Button>(R.id.btnCancelarActualizacion)
+        val btnGuardar = dialogView.findViewById<Button>(R.id.btnGuardarPoblacion)
+
+        // Mostrar la población actual como hint
+        editNuevaPoblacion.hint = "Actual: ${ciudad.habitantes}"
+
+        // Configurar listeners
+        btnCancelar.setOnClickListener {
+            dialog.dismiss()
+        }
+
+        btnGuardar.setOnClickListener {
+            val nuevaPoblacion = editNuevaPoblacion.text.toString().toIntOrNull() ?: 0
+
+            if (nuevaPoblacion <= 0) {
+                editNuevaPoblacion.error = "La población debe ser mayor a 0"
+                return@setOnClickListener
+            }
+
+            // Actualizar en la base de datos
+            val resultado = baseDatos.actualizarPoblacionCiudad(ciudad.id, nuevaPoblacion)
+
+            if (resultado > 0) {
+                Toast.makeText(this, "Población actualizada", Toast.LENGTH_SHORT).show()
+                dialog.dismiss()
+                // Actualizar la vista si es necesario
+            } else {
+                Toast.makeText(this, "Error al actualizar", Toast.LENGTH_SHORT).show()
+            }
+        }
+
+        // Mostrar el diálogo
+        dialog.show()
+    }
+    private fun eliminarCiudadesDePais(pais: Pais) {
         val db = baseDatos.writableDatabase
         try {
             db.beginTransaction()
 
-            // Eliminar ciudades del país
+            // Solo eliminar ciudades asociadas al país
             db.delete("ciudad", "idPais = ?", arrayOf(pais.id.toString()))
 
-            // Eliminar el país
-            db.delete("pais", "id = ?", arrayOf(pais.id.toString()))
-
             db.setTransactionSuccessful()
-            Toast.makeText(this, "${pais.nombre} eliminado", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, "Ciudades de ${pais.nombre} eliminadas", Toast.LENGTH_SHORT).show()
             cargarPaises(editTextBuscarPais.text.toString())
         } catch (e: Exception) {
-            Toast.makeText(this, "Error al eliminar", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, "Error al eliminar ciudades", Toast.LENGTH_SHORT).show()
         } finally {
             db.endTransaction()
         }
     }
+
 
     private fun mostrarDialogoConfirmacionEliminarCiudad(ciudad: Ciudad) {
         AlertDialog.Builder(this)
@@ -207,3 +255,4 @@ class MainActivity : AppCompatActivity() {
         super.onDestroy()
     }
 }
+

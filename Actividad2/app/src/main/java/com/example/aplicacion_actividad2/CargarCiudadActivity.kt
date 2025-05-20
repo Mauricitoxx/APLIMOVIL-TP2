@@ -63,7 +63,10 @@ class CargarCiudadActivity : AppCompatActivity() {
         btnCancelarNuevoPais.setOnClickListener { ocultarPopupPais() }
         btnGuardarCiudad.setOnClickListener { guardarCiudad() }
     }
+    // Agrega esta función a tu CargarCiudadActivity
 
+
+    // Función auxiliar para actualizar la vista (si muestras las ciudades)
     private fun configurarSpinnerPaises() {
         try {
             Log.d("DEBUG", "Configurando spinner de países")

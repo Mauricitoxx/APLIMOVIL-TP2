@@ -1,0 +1,15 @@
+<!-- res/drawable/fade_center_drawable.xml -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+
+    <gradient
+        android:type="radial"
+        android:gradientRadius="250dp"
+        android:centerX="50%"
+        android:centerY="50%"
+        android:startColor="#E4FFFC"
+        android:endColor="@android:color/transparent" />
+
+    <!-- Opcional: esquinas redondeadas -->
+    <corners android:radius="16dp" />
+</shape>

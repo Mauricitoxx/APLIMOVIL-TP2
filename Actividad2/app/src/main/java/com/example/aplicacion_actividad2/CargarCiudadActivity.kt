@@ -1,5 +1,7 @@
 package com.example.aplicacion_actividad2
 
+import android.app.Activity
+import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -23,69 +25,66 @@ class CargarCiudadActivity : AppCompatActivity() {
     private lateinit var editTextNuevoPais: EditText
     private lateinit var editTextNombreCiudad: EditText
     private lateinit var editTextPoblacion: EditText
+    private lateinit var viewSeparador1: View
+    private lateinit var viewSeparador2: View
 
     private val listaPaises = mutableListOf<String>()
     private lateinit var adapter: ArrayAdapter<String>
+
+    // Colores para los separadores
+    private val originalSeparatorColor = Color.BLACK
+    private val errorSeparatorColor = Color.RED
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.cargar)
 
-        // Verificar que las vistas existen
-        spinnerPaises = findViewById(R.id.spinnerPaises) ?: run {
-            Toast.makeText(this, "Error: No se encontró el Spinner", Toast.LENGTH_LONG).show()
-            finish()
-            return
-        }
-
-        layoutNuevoPais = findViewById(R.id.layoutNuevoPais) ?: run {
-            Toast.makeText(this, "Error: No se encontró el layout de nuevo país", Toast.LENGTH_LONG).show()
-            finish()
-            return
-        }
-
+        // Inicializar vistas
+        spinnerPaises = findViewById(R.id.spinnerPaises)
+        layoutNuevoPais = findViewById(R.id.layoutNuevoPais)
         editTextNuevoPais = findViewById(R.id.editTextNuevoPais)
         editTextNombreCiudad = findViewById(R.id.editTextNombreCiudad)
         editTextPoblacion = findViewById(R.id.editTextPoblacion)
+        viewSeparador1 = findViewById(R.id.viewSeparador1)
+        viewSeparador2 = findViewById(R.id.viewSeparador2)
 
-        val btnAgregarNuevoPais: Button = findViewById(R.id.btnAgregarNuevoPais)
-        val btnCancelarNuevoPais: Button = findViewById(R.id.btnCancelarNuevoPais)
-        val btnGuardarCiudad: Button = findViewById(R.id.btnGuardarCiudad)
+        findViewById<Button>(R.id.btnVolver).setOnClickListener {
+            setResult(Activity.RESULT_CANCELED)
+            finish()
+        }
 
         // Inicializar base de datos
         baseDatos = BaseDatos(this)
 
-        // Configurar Spinner con datos iniciales
+        // Configurar Spinner
         configurarSpinnerPaises()
 
         // Configurar listeners
-        btnAgregarNuevoPais.setOnClickListener { agregarNuevoPais() }
-        btnCancelarNuevoPais.setOnClickListener { ocultarPopupPais() }
-        btnGuardarCiudad.setOnClickListener { guardarCiudad() }
+        findViewById<Button>(R.id.btnAgregarNuevoPais).setOnClickListener { agregarNuevoPais() }
+        findViewById<Button>(R.id.btnCancelarNuevoPais).setOnClickListener { ocultarPopupPais() }
+        findViewById<Button>(R.id.btnGuardarCiudad).setOnClickListener { guardarCiudad() }
     }
-    // Agrega esta función a tu CargarCiudadActivity
 
+    private fun resetSeparatorColors() {
+        viewSeparador1.setBackgroundColor(originalSeparatorColor)
+        viewSeparador2.setBackgroundColor(originalSeparatorColor)
+    }
 
-    // Función auxiliar para actualizar la vista (si muestras las ciudades)
+    private fun showErrorOnSeparators() {
+        viewSeparador1.setBackgroundColor(errorSeparatorColor)
+        viewSeparador2.setBackgroundColor(errorSeparatorColor)
+    }
+
     private fun configurarSpinnerPaises() {
         try {
-            Log.d("DEBUG", "Configurando spinner de países")
-
-            // 1. Obtener países de la BD
             val paisesBD = baseDatos.obtenerPaises()
-            Log.d("DEBUG", "Países obtenidos de BD: ${paisesBD.size}")
-
-            // 2. Preparar lista
             listaPaises.clear()
             listaPaises.addAll(paisesBD.map { it.nombre })
 
-            // Agregar "Otro" solo si no existe ya
             if (!listaPaises.contains("Otro")) {
                 listaPaises.add("Otro")
             }
-            Log.d("DEBUG", "Lista completa para spinner: $listaPaises")
 
-            // 3. Configurar adaptador
             adapter = ArrayAdapter(
                 this,
                 android.R.layout.simple_spinner_item,
@@ -96,12 +95,9 @@ class CargarCiudadActivity : AppCompatActivity() {
 
             spinnerPaises.adapter = adapter
 
-            // 4. Configurar listener mejorado
             spinnerPaises.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
                 override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
                     val seleccion = parent?.getItemAtPosition(position)?.toString() ?: return
-                    Log.d("DEBUG", "País seleccionado: $seleccion")
-
                     if (seleccion == "Otro") {
                         mostrarPopupPais()
                     } else {
@@ -114,7 +110,6 @@ class CargarCiudadActivity : AppCompatActivity() {
                 }
             }
 
-            // Seleccionar primer item por defecto
             if (listaPaises.isNotEmpty()) {
                 spinnerPaises.setSelection(0)
             }
@@ -126,50 +121,38 @@ class CargarCiudadActivity : AppCompatActivity() {
     }
 
     private fun mostrarPopupPais() {
-        Log.d("DEBUG", "Mostrando popup para nuevo país")
         layoutNuevoPais.visibility = View.VISIBLE
         editTextNuevoPais.requestFocus()
-
-        // Mostrar teclado
         val imm = getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
         imm.showSoftInput(editTextNuevoPais, InputMethodManager.SHOW_IMPLICIT)
     }
 
     private fun ocultarPopupPais() {
-        Log.d("DEBUG", "Ocultando popup de país")
         layoutNuevoPais.visibility = View.GONE
         editTextNuevoPais.text?.clear()
-
-        // Ocultar teclado
+        resetSeparatorColors()
         val imm = getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
         imm.hideSoftInputFromWindow(editTextNuevoPais.windowToken, 0)
     }
 
     private fun agregarNuevoPais() {
         val nombrePais = editTextNuevoPais.text.toString().trim()
-        Log.d("DEBUG", "Intentando agregar país: $nombrePais")
 
         if (nombrePais.isEmpty()) {
-            Toast.makeText(this, "Ingrese un nombre de país", Toast.LENGTH_SHORT).show()
+            editTextNuevoPais.error = "Ingrese un nombre de país"
+            showErrorOnSeparators()
             return
         }
 
         val resultado = baseDatos.insertarPais(nombrePais)
-        Log.d("DEBUG", "Resultado de insertar país: $resultado")
 
         if (resultado != -1L) {
-            // Actualizar Spinner manteniendo la selección
             val seleccionActual = spinnerPaises.selectedItemPosition
-
             listaPaises.remove("Otro")
             listaPaises.add(nombrePais)
             listaPaises.add("Otro")
-
             adapter.notifyDataSetChanged()
-
-            // Restaurar selección o seleccionar el nuevo país
             spinnerPaises.setSelection(seleccionActual)
-
             ocultarPopupPais()
             Toast.makeText(this, "País agregado correctamente", Toast.LENGTH_SHORT).show()
         } else {
@@ -178,40 +161,64 @@ class CargarCiudadActivity : AppCompatActivity() {
     }
 
     private fun guardarCiudad() {
+        var hasErrors = false
+        resetSeparatorColors()
+
         val nombreCiudad = editTextNombreCiudad.text.toString().trim()
         val poblacionText = editTextPoblacion.text.toString()
         val paisSeleccionado = spinnerPaises.selectedItem?.toString() ?: ""
 
-        Log.d("DEBUG", "Intentando guardar ciudad: $nombreCiudad, $poblacionText, $paisSeleccionado")
+        // Validaciones
+        if (nombreCiudad.isEmpty()) {
+            editTextNombreCiudad.error = "Ingrese nombre de ciudad"
+            hasErrors = true
+        }
 
-        // Validaciones mejoradas
-        when {
-            nombreCiudad.isEmpty() -> {
-                editTextNombreCiudad.error = "Ingrese nombre de ciudad"
-                return
+        if (poblacionText.isEmpty()) {
+            editTextPoblacion.error = "Ingrese la población"
+            hasErrors = true
+        }
+
+        if (paisSeleccionado == "Otro") {
+            val nuevoPais = editTextNuevoPais.text.toString().trim()
+            if (nuevoPais.isEmpty()) {
+                editTextNuevoPais.error = "Ingrese un nombre de país"
+                hasErrors = true
             }
-            poblacionText.isEmpty() -> {
-                editTextPoblacion.error = "Ingrese la población"
-                return
-            }
-            paisSeleccionado == "Otro" -> {
-                Toast.makeText(this, "Complete primero el nuevo país", Toast.LENGTH_SHORT).show()
-                return
-            }
+        }
+
+        if (hasErrors) {
+            showErrorOnSeparators()
+            return
         }
 
         val poblacion = poblacionText.toIntOrNull() ?: 0
         if (poblacion <= 0) {
             editTextPoblacion.error = "La población debe ser mayor a 0"
+            showErrorOnSeparators()
             return
         }
 
         // Obtener ID del país seleccionado
         val paises = baseDatos.obtenerPaises()
-        val pais = paises.find { it.nombre == paisSeleccionado }
+        val pais = if (paisSeleccionado == "Otro") {
+            val nuevoPaisNombre = editTextNuevoPais.text.toString().trim()
+            paises.find { it.nombre == nuevoPaisNombre } ?: run {
+                // Insertar el nuevo país si no existe
+                val nuevoPaisId = baseDatos.insertarPais(nuevoPaisNombre)
+                if (nuevoPaisId != -1L) {
+                    Pais(nuevoPaisId.toInt(), nuevoPaisNombre)
+                } else {
+                    Toast.makeText(this, "Error al crear el nuevo país", Toast.LENGTH_SHORT).show()
+                    return
+                }
+            }
+        } else {
+            paises.find { it.nombre == paisSeleccionado }
+        }
 
         if (pais == null) {
-            Toast.makeText(this, "Error: País no encontrado en la base de datos", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, "Error: País no encontrado", Toast.LENGTH_SHORT).show()
             return
         }
 
@@ -221,16 +228,11 @@ class CargarCiudadActivity : AppCompatActivity() {
 
         if (resultado != -1L) {
             Toast.makeText(this, "¡Ciudad guardada exitosamente!", Toast.LENGTH_SHORT).show()
-            limpiarFormulario()
+            setResult(Activity.RESULT_OK)
+            finish() // Cierra la actividad y regresa a MainActivity
         } else {
             Toast.makeText(this, "Error al guardar la ciudad", Toast.LENGTH_SHORT).show()
         }
-    }
-
-    private fun limpiarFormulario() {
-        editTextNombreCiudad.text?.clear()
-        editTextPoblacion.text?.clear()
-        spinnerPaises.setSelection(0)
     }
 
     override fun onDestroy() {

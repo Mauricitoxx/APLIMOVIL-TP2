@@ -3,48 +3,63 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:background="?attr/selectableItemBackground"
-    android:padding="8dp">
+    android:padding="0dp">
 
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="center_vertical">
-
-        <TextView
-            android:id="@+id/textViewNombrePais"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:textSize="18sp"
-            android:textColor="@android:color/black"
-            android:padding="8dp"/>
-
-        <ImageButton
-            android:id="@+id/btnEliminarCiudades"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:contentDescription="Eliminar ciudades del país"
-            android:src="@android:drawable/ic_menu_delete"
-            android:background="?attr/selectableItemBackgroundBorderless"/>
-
-        <ImageButton
-            android:id="@+id/btnExpandir"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:contentDescription="Expandir"
-            android:src="@android:drawable/arrow_down_float"
-            android:background="?attr/selectableItemBackgroundBorderless"/>
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/layoutCiudades"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:visibility="gone"
-        android:paddingLeft="16dp">
-        <!-- Ciudades se agregarán aquí dinámicamente -->
+
+        android:padding="8dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
+
+            <TextView
+                android:id="@+id/textViewNombrePais"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:textColor="@android:color/black"
+                android:padding="8dp"/>
+
+            <ImageButton
+                android:id="@+id/btnEliminarCiudades"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:contentDescription="Eliminar ciudades del país"
+                android:src="@android:drawable/ic_menu_delete"
+                android:background="?attr/selectableItemBackgroundBorderless"/>
+
+            <ImageButton
+                android:id="@+id/btnExpandir"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:contentDescription="Expandir"
+                android:src="@android:drawable/arrow_down_float"
+                android:background="?attr/selectableItemBackgroundBorderless"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/layoutCiudades"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:visibility="gone"
+            android:paddingLeft="16dp">
+            <!-- Ciudades se agregarán aquí dinámicamente -->
+        </LinearLayout>
     </LinearLayout>
+
+    <View
+        android:id="@+id/viewSeparador2"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:layout_marginBottom="4dp"
+        android:background="#000000" />
 </LinearLayout>

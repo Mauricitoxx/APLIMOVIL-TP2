@@ -12,15 +12,21 @@
     <EditText
         android:id="@+id/editTextBuscarPais"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="44dp"
         android:layout_marginTop="40dp"
+        android:layout_marginBottom="0dp"
+        android:background="@drawable/gradient2"
+        android:gravity="center"
         android:hint="Buscar Ciudad o Pais"
+        android:imeOptions="actionSearch"
         android:inputType="text"
         android:textSize="20sp"
-        android:textStyle="bold"
-        android:gravity="center"
-        android:layout_marginBottom="0dp"
-        android:imeOptions="actionSearch"/>
+        android:textStyle="bold" />
+    <View
+        android:id="@+id/viewSeparador1"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="#000000" />
 
     <!-- ScrollView para la lista de países -->
     <ScrollView
